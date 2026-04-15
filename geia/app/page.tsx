@@ -1,9 +1,10 @@
 "use client";
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Nueva importación para navegación forzada
 import { useState, useEffect } from 'react';
 
 export default function SOSPage() {
+  const router = useRouter(); // Inicializamos el motor de navegación
   const [fase, setFase] = useState<'Espera' | 'Inhala' | 'Mantén' | 'Exhala' | 'Terminado'>('Espera');
   const [contador, setContador] = useState(4);
   const [ciclo, setCiclo] = useState(1);
@@ -49,22 +50,22 @@ export default function SOSPage() {
   const duracionTransicion = fase === 'Mantén' ? 'duration-1000' : 'duration-[4000ms]';
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center bg-[#1a1c29] px-6 pt-10">
+    <main className="relative flex min-h-screen flex-col items-center bg-[#1a1c29] px-6 pt-10 overflow-hidden">
       
-      {/* Botón Volver corregido: Área de clic ampliada */}
-      <Link 
-        href="/" 
-        className="absolute top-10 left-6 flex items-start gap-3 z-50 group cursor-pointer"
+      {/* Botón Volver con navegación forzada (router.push) */}
+      <button 
+        onClick={() => router.push('/')}
+        className="absolute top-10 left-6 flex items-start gap-3 z-[100] group cursor-pointer border-none bg-transparent outline-none"
       >
-        <div className="w-12 h-12 bg-[#a799c7] rounded-xl shadow-md group-active:scale-90 transition-transform flex items-center justify-center">
+        <div className="w-12 h-12 bg-[#a799c7] rounded-xl shadow-lg group-active:scale-75 transition-transform flex items-center justify-center pointer-events-none">
           <span className="text-white text-2xl font-bold">←</span>
         </div>
-        <div className="text-slate-300 text-sm font-serif leading-tight mt-1 group-hover:text-white transition-colors">
+        <div className="text-slate-300 text-sm font-serif leading-tight mt-1 group-hover:text-white transition-colors pointer-events-none">
           Volver
         </div>
-      </Link>
+      </button>
 
-      <h2 className="text-3xl font-serif text-white tracking-wide mt-24 mb-20">
+      <h2 className="text-3xl font-serif text-white tracking-wide mt-24 mb-20 text-center">
         {fase === 'Espera' && 'Respiración guiada'}
         {fase !== 'Espera' && fase !== 'Terminado' && fase}
         {fase === 'Terminado' && '¡Lo hiciste muy bien!'}
@@ -79,7 +80,7 @@ export default function SOSPage() {
           {fase === 'Espera' ? (
             <button 
               onClick={iniciarEjercicio}
-              className="text-2xl tracking-wider active:scale-95 transition-transform"
+              className="text-2xl tracking-wider active:scale-95 transition-transform cursor-pointer"
             >
               INICIAR
             </button>
