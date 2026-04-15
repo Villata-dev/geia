@@ -1,103 +1,36 @@
-"use client";
+import Link from 'next/link';
 
-import { useState, useEffect } from 'react';
-
-export default function SOSPage() {
-  const [fase, setFase] = useState<'Espera' | 'Inhala' | 'Mantén' | 'Exhala' | 'Terminado'>('Espera');
-  const [contador, setContador] = useState(4);
-  const [ciclo, setCiclo] = useState(1);
-  const totalCiclos = 3;
-
-  useEffect(() => {
-    if (fase === 'Espera' || fase === 'Terminado') return;
-
-    const timer = setInterval(() => {
-      setContador((prev) => {
-        if (prev > 1) return prev - 1;
-
-        if (fase === 'Inhala') {
-          setFase('Mantén');
-          return 4;
-        } else if (fase === 'Mantén') {
-          setFase('Exhala');
-          return 4;
-        } else if (fase === 'Exhala') {
-          if (ciclo < totalCiclos) {
-            setCiclo((c) => c + 1);
-            setFase('Inhala');
-            return 4;
-          } else {
-            setFase('Terminado');
-            return 0;
-          }
-        }
-        return 0;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [fase, ciclo]);
-
-  const iniciarEjercicio = () => {
-    setFase('Inhala');
-    setContador(4);
-    setCiclo(1);
-  };
-
-  const tamañoCirculo = (fase === 'Inhala' || fase === 'Mantén') ? 'scale-150' : 'scale-100';
-  const duracionTransicion = fase === 'Mantén' ? 'duration-1000' : 'duration-[4000ms]';
-
+export default function Home() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center bg-[#1a1c29] px-6 pt-10 overflow-hidden">
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-[#1a1c29] px-6">
       
-      {/* BOTÓN VOLVER: Usamos <a> puro para forzar la navegación al Home */}
-      <a 
-        href="/" 
-        className="absolute top-10 left-6 flex items-start gap-3 z-[999] group cursor-pointer no-underline"
-      >
-        <div className="w-12 h-12 bg-[#a799c7] rounded-xl shadow-lg active:scale-75 transition-transform flex items-center justify-center">
-          <span className="text-white text-2xl font-bold">←</span>
-        </div>
-        <div className="text-slate-300 text-sm font-serif leading-tight mt-1 group-hover:text-white transition-colors">
-          Volver
-        </div>
-      </a>
-
-      <h2 className="text-3xl font-serif text-white tracking-wide mt-24 mb-20 text-center">
-        {fase === 'Espera' && 'Respiración guiada'}
-        {fase !== 'Espera' && fase !== 'Terminado' && fase}
-        {fase === 'Terminado' && '¡Lo hiciste muy bien!'}
-      </h2>
-
-      <div className="relative flex items-center justify-center w-64 h-64 mb-16">
-        <div 
-          className={`absolute w-40 h-40 rounded-full bg-[#eca884] shadow-[0_0_60px_rgba(236,168,132,0.3)] transition-transform ease-in-out ${tamañoCirculo} ${duracionTransicion}`}
-        />
-        
-        <div className="relative z-10 text-white text-5xl font-serif drop-shadow-md">
-          {fase === 'Espera' ? (
-            <button 
-              onClick={iniciarEjercicio}
-              className="text-2xl tracking-wider active:scale-95 transition-transform cursor-pointer border-none bg-transparent text-white outline-none"
-            >
-              INICIAR
-            </button>
-          ) : fase === 'Terminado' ? (
-            '🤍'
-          ) : (
-            contador
-          )}
+      {/* Botón superior izquierdo: Acceso directo a respiración */}
+      <div className="absolute top-8 left-6 flex items-start gap-3">
+        <Link 
+          href="/sos" 
+          className="w-10 h-10 bg-[#a799c7] rounded-xl shadow-md active:scale-95 transition-transform flex items-center justify-center"
+        >
+          <span className="text-white text-xl">🫁</span>
+        </Link>
+        <div className="text-slate-300 text-sm font-serif leading-tight mt-1">
+          Respiración<br />guiada
         </div>
       </div>
 
-      <div className="w-full max-w-sm text-center font-serif space-y-2 mt-auto pb-12">
-        {fase !== 'Espera' && fase !== 'Terminado' && (
-          <p className="text-lg text-[#a799c7]">
-            Ciclo {ciclo} de {totalCiclos}
-          </p>
-        )}
-      </div>
+      <div className="flex flex-col items-center gap-16 w-full max-w-md">
+        <div className="text-center space-y-2">
+          <h1 className="text-6xl font-serif text-white tracking-wide">Hola.</h1>
+          <p className="text-xl text-slate-400 font-serif">¿Necesitas ayuda?</p>
+        </div>
 
+        {/* Botón HELP: Nos lleva a la ruta /sos */}
+        <Link 
+          href="/sos" 
+          className="w-64 h-64 rounded-full bg-[#eca884] shadow-[0_0_50px_rgba(236,168,132,0.2)] flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+        >
+          <span className="text-white text-4xl font-serif tracking-widest">HELP</span>
+        </Link>
+      </div>
     </main>
   );
 }
