@@ -17,6 +17,19 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Botón superior derecho: Acceso directo a Check-in */}
+      <div className="absolute top-8 right-6 flex items-start gap-3 text-right">
+        <div className="text-slate-300 text-sm font-serif leading-tight mt-1">
+          Check-in<br />diario
+        </div>
+        <Link 
+          href="/checkin" 
+          className="w-10 h-10 bg-[#eca884] rounded-xl shadow-md active:scale-95 transition-transform flex items-center justify-center"
+        >
+          <span className="text-white text-xl">📝</span>
+        </Link>
+      </div>
+
       <div className="flex flex-col items-center gap-16 w-full max-w-md">
         <div className="text-center space-y-2">
           <h1 className="text-6xl font-serif text-white tracking-wide">Hola.</h1>
