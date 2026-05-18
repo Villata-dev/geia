@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Geia
 
-## Getting Started
+**Tu acompañante en momentos de crisis.**
 
-First, run the development server:
+Geia es una aplicación web progresiva (PWA Ready) diseñada para brindar apoyo inmediato durante crisis de ansiedad o pánico, además de fomentar el autoconocimiento mediante un registro emocional diario.
+
+---
+
+## Características
+
+### Botón SOS
+Interfaz de acceso rápido pensada para requerir el mínimo esfuerzo cognitivo durante momentos de alta tensión.
+
+### Respiración Guiada
+Herramienta interactiva basada en el ritmo **4-4-6-2**:
+
+- Inhalar
+- Sostener
+- Exhalar
+- Pausar
+
+Incluye animaciones visuales y contador sincronizado para ayudar a regular la respiración y disminuir el estrés.
+
+### Check-in Emocional Diario
+Espacio para registrar el estado emocional de forma simple y privada.
+
+Incluye:
+- Selección de estado de ánimo
+- Notas opcionales
+- Registro diario tipo journaling
+
+### Privacidad Local
+Todos los datos se almacenan únicamente en el dispositivo del usuario mediante **Local Storage**.
+
+La aplicación no utiliza bases de datos externas ni almacena información sensible en servidores.
+
+### Diseño Responsivo
+Interfaz construida con enfoque **Mobile First**, utilizando:
+
+- Glassmorphism
+- Tipografía elegante
+- Paletas diferenciadas para zonas de emergencia y autoconocimiento
+
+---
+
+## Stack Tecnológico
+
+- **Framework:** Next.js (App Router)
+- **Estilos:** Tailwind CSS
+- **Tipografía:** Google Fonts – Playfair Display
+- **Iconografía:** Lucide React
+- **Despliegue:** Vercel
+
+---
+
+## Instalación y Desarrollo Local
+
+Clona este repositorio:
+
+```bash
+git clone <URL_DEL_REPOSITORIO>
+```
+
+Instala las dependencias:
+
+```bash
+npm install
+```
+
+Inicia el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre en tu navegador:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Objetivo del Proyecto
 
-To learn more about Next.js, take a look at the following resources:
+Geia busca ofrecer una herramienta accesible y privada para ayudar a las personas a manejar momentos de ansiedad, promoviendo al mismo tiempo hábitos de autoconocimiento y regulación emocional.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Créditos
 
-## Deploy on Vercel
+### Desarrollo y Arquitectura
+Francisco Javier
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### UX/UI e Ilustraciones
+Javiera Chávez 
