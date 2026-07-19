@@ -1,23 +1,25 @@
 "use client";
 
 import { useState } from 'react';
+import Image from 'next/image'; // Importamos el optimizador de imágenes de Next.js
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Loader2, CheckCircle2, MessageSquareText } from 'lucide-react'; // Añadimos ícono de nota
+import { ArrowLeft, Loader2, CheckCircle2, MessageSquareText } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CheckinPage() {
   const [seleccion, setSeleccion] = useState<number | null>(null);
-  const [nota, setNota] = useState(''); // Estado para la nota opcional
+  const [nota, setNota] = useState('');
   const [guardando, setGuardando] = useState(false);
   const [guardadoExito, setGuardadoExito] = useState(false);
   const router = useRouter();
 
+  // Actualizamos el arreglo para usar las rutas de las ilustraciones de Javi
   const emociones = [
-    { id: 1, emoji: '😄', label: 'Muy bien' },
-    { id: 2, emoji: '🙂', label: 'Bien' },
-    { id: 3, emoji: '😐', label: 'Neutral' },
-    { id: 4, emoji: '😔', label: 'Mal' },
-    { id: 5, emoji: '😠', label: 'Muy mal' },
+    { id: 1, src: '/assets/emojis/muy-bien.png', label: 'Muy bien' },
+    { id: 2, src: '/assets/emojis/bien.png', label: 'Bien' },
+    { id: 3, src: '/assets/emojis/neutral.png', label: 'Neutral' },
+    { id: 4, src: '/assets/emojis/mal.png', label: 'Mal' },
+    { id: 5, src: '/assets/emojis/muy-mal.png', label: 'Muy mal' },
   ];
 
   const handleGuardar = () => {
@@ -30,7 +32,7 @@ export default function CheckinPage() {
     const nuevoRegistro = {
       fecha: new Date().toISOString(),
       emocionId: seleccion,
-      nota: nota.trim(), // Guardamos la nota (limpiando espacios)
+      nota: nota.trim(),
     };
     historial.push(nuevoRegistro);
     localStorage.setItem('geia_checkins', JSON.stringify(historial));
@@ -40,17 +42,15 @@ export default function CheckinPage() {
       setGuardadoExito(true);
       setTimeout(() => {
         router.push('/');
-      }, 1200); // Un poco más de tiempo para disfrutar el éxito
+      }, 1200);
     }, 1000);
   };
 
   return (
     <main className="relative flex min-h-[100dvh] w-full flex-col items-center justify-start bg-gradient-to-br from-[#f3bca0] via-[#eca884] to-[#df9a76] overflow-hidden px-6 pt-24 md:pt-32 pb-10 transition-all duration-500">
       
-      {/* Luces de fondo sutiles */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-[120px] opacity-30 pointer-events-none"></div>
 
-      {/* Botón Volver (Header fijo arriba) */}
       <div className="absolute top-8 md:top-12 left-6 md:left-12 z-20">
         <Link 
           href="/" 
@@ -60,13 +60,12 @@ export default function CheckinPage() {
         </Link>
       </div>
 
-      {/* Contenido Central con transiciones de opacidad y posición */}
       <div className="flex flex-col items-center z-10 w-full max-w-xl transition-all duration-700 ease-out">
         <h2 className="text-4xl md:text-5xl text-white font-medium mb-16 md:mb-20 text-center drop-shadow-md">
           ¿Cómo te sientes hoy?
         </h2>
 
-        {/* Selector de Emociones */}
+        {/* Selector de Emociones con Assets Personalizados */}
         <div className="flex items-center justify-center gap-3 md:gap-5 w-full mb-12 flex-wrap">
           {emociones.map((emocion) => {
             const isSelected = seleccion === emocion.id;
@@ -75,22 +74,32 @@ export default function CheckinPage() {
                 key={emocion.id}
                 onClick={() => !guardando && !guardadoExito && setSeleccion(emocion.id)}
                 disabled={guardando || guardadoExito}
-                className={`w-14 h-14 md:w-20 md:h-20 rounded-full flex items-center justify-center text-2xl md:text-4xl transition-all duration-500 ease-out outline-none
+                className={`relative w-16 h-16 md:w-24 md:h-24 rounded-full flex items-center justify-center transition-all duration-500 ease-out outline-none
                   ${isSelected 
-                    ? 'bg-white ring-4 ring-white/50 scale-110 shadow-2xl translate-y-[-10px]' 
-                    : 'bg-white/30 backdrop-blur-sm hover:bg-white/50 hover:scale-105 shadow-sm text-white/90'
+                    ? 'bg-white ring-4 ring-white/50 scale-110 shadow-2xl translate-y-[-10px] p-2' 
+                    : 'bg-white/30 backdrop-blur-sm hover:bg-white/50 hover:scale-105 shadow-sm p-3'
                   }
-                  ${seleccion !== null && !isSelected ? 'opacity-50 scale-95' : ''} // Suavizamos los no seleccionados
+                  ${seleccion !== null && !isSelected ? 'opacity-50 scale-95' : ''}
                 `}
                 title={emocion.label}
               >
-                {emocion.emoji}
+                {/* Contenedor de la imagen de Next.js */}
+                <div className="relative w-full h-full">
+                  <Image 
+                    src={emocion.src} 
+                    alt={emocion.label} 
+                    fill 
+                    // Agregamos mix-blend-multiply aquí
+                    className="object-contain drop-shadow-sm mix-blend-multiply" 
+                    sizes="(max-width: 768px) 64px, 96px"
+                  />
+                </div>
               </button>
             );
           })}
         </div>
 
-        {/* Sección de Nota Opcional - Aparece animada */}
+        {/* Sección de Nota Opcional */}
         <div className={`w-full transition-all duration-700 ease-in-out ${seleccion !== null ? 'opacity-100 max-h-[300px] mb-12' : 'opacity-0 max-h-0 overflow-hidden'}`}>
             <div className="bg-[#1a1c29]/90 border border-white/10 p-5 rounded-2xl shadow-lg backdrop-blur-sm">
                 <div className="flex items-center gap-3 mb-3 text-white/70">
@@ -107,8 +116,7 @@ export default function CheckinPage() {
             </div>
         </div>
 
-
-        {/* Botón Guardar - Siempre visible, pero con estilo dinámico */}
+        {/* Botón Guardar */}
         <button
           onClick={handleGuardar}
           disabled={seleccion === null || guardando || guardadoExito}
